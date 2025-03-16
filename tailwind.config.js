@@ -15,6 +15,10 @@ module.exports = {
           '2xl': '6rem',
         },
       },
+      backdropBlur: {
+        xs: '2px',
+      },
     },
   },
+  plugins: [],
 };

@@ -1,4 +1,10 @@
-import React, { useEffect, useState, createContext, useContext, useRef } from "react";
+import React, {
+  useEffect,
+  useState,
+  createContext,
+  useContext,
+  useRef,
+} from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Toaster, toast } from "react-hot-toast";
 import {
@@ -7,14 +13,25 @@ import {
   BsMegaphone,
   BsServer,
   BsGlobe,
+  BsGear,
+  BsCart4,
+  BsBrush,
+  BsKanban,
+  BsClipboardCheck,
+  BsShield,
+  BsSpeedometer,
+  BsGraphUp,
+  BsCloud,
+  BsArrowLeftCircle,
+  BsArrowRightCircle,
 } from "react-icons/bs";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { MdSettings } from "react-icons/md";
 // Main HomePage Component
-import { useTheme } from '../context/ThemeContext';
-import {images} from "../constants/images" 
+import { useTheme } from "../context/ThemeContext";
+import { images } from "../constants/images";
 // Assuming you installed this: npm install react-icons-animated
 // If not installed or you prefer a different approach, you can skip this for now.
 // import { AnimatedIcon } from 'react-icons-animated';
@@ -36,36 +53,6 @@ const ThemeProvider = ({ children }) => {
   );
 };
 
-
-
-// Animated Icons Section (Conditional import)
-const AnimatedIconsSection = () => {
-  // Check if AnimatedIcon is available (if the library was installed)
-  // if (typeof AnimatedIcon === 'undefined') {
-  //   return <div className="py-16 bg-indigo-100"><div className="container mx-auto px-6 text-center"><h2 className="text-3xl font-bold mb-8 text-gray-800">Animated Features</h2><p>Install 'react-icons-animated' to see animated icons here.</p></div></div>;
-  // }
-
-  return (
-    <div className="py-16 bg-indigo-100">
-      <div className="container mx-auto px-6 text-center">
-        <h2 className="text-3xl font-bold mb-8 text-gray-800">
-          Animated Features
-        </h2>
-        <div className="flex justify-around">
-          {/* <AnimatedIcon value={<MdSettings size={48} />} animation="spin" color="blue" /> */}
-          <MdSettings
-            size={48}
-            className={`transition-transform duration-500 hover:rotate-180 ${
-              useTheme().theme === "dark" ? "text-white" : "text-blue-500"
-            }`}
-          />
-          {/* Add more animated icons or custom animations here */}
-        </div>
-      </div>
-    </div>
-  );
-};
-
 // Carousel Section
 const CarouselSection = () => {
   const settings = {
@@ -78,6 +65,7 @@ const CarouselSection = () => {
     autoplaySpeed: 3000,
   };
 
+  // Using the expanded projects data
   const projects = images.projects;
 
   return (
@@ -89,15 +77,17 @@ const CarouselSection = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">Featured Projects</h2>
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            Featured Projects
+          </h2>
           <p className="text-gray-300 max-w-2xl mx-auto">
-            Discover our latest work and innovative solutions
+            Discover our latest work and innovative solutions across multiple industries and technologies
           </p>
         </motion.div>
 
         <Slider {...settings}>
           {projects.map((project, index) => (
-            <motion.div 
+            <motion.div
               key={index}
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
@@ -112,8 +102,23 @@ const CarouselSection = () => {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                    <div className="flex items-center mb-3">
+                      <span className="bg-indigo-500/70 text-white text-xs px-2 py-1 rounded mr-2">
+                        {project.category}
+                      </span>
+                      <span className="bg-gray-800/70 text-white text-xs px-2 py-1 rounded">
+                        {project.clientType}
+                      </span>
+                    </div>
                     <h3 className="text-2xl font-bold mb-2">{project.title}</h3>
-                    <p className="text-gray-200">{project.description}</p>
+                    <p className="text-gray-200 mb-3">{project.description}</p>
+                    <div className="flex flex-wrap gap-2 mt-3">
+                      {project.technologies && project.technologies.map((tech, idx) => (
+                        <span key={idx} className="bg-white/20 backdrop-blur-sm text-white text-xs px-2 py-1 rounded">
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -125,118 +130,242 @@ const CarouselSection = () => {
   );
 };
 
-// Horizontal Scroll Section
 const HorizontalScrollSection = () => {
   const containerRef = useRef(null);
   const { scrollXProgress } = useScroll({ container: containerRef });
+  const scrollRef = useRef(null);
 
-  const items = [
+  const scrollLeft = () => {
+    if (containerRef.current) {
+      containerRef.current.scrollBy({ left: -400, behavior: "smooth" });
+    }
+  };
+
+  const scrollRight = () => {
+    if (containerRef.current) {
+      containerRef.current.scrollBy({ left: 400, behavior: "smooth" });
+    }
+  };
+
+  const ExpertiseCard = ({ item }) => (
+    <motion.div
+      className="min-w-[300px] md:min-w-[400px] lg:min-w-[450px] snap-center p-6"
+      initial={{ opacity: 0, x: 50 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <div className="bg-white/10 backdrop-blur-sm rounded-xl p-8 border border-white/20 h-full hover:bg-white/15 transition-all">
+        <div className="flex items-center mb-6">
+          <div className="bg-indigo-900/60 rounded-lg p-3 mr-4 text-indigo-400">
+            {item.icon}
+          </div>
+          <h3 className="text-2xl font-bold">{item.title}</h3>
+        </div>
+        <h4 className="text-indigo-300 font-medium mb-4">{item.subtitle}</h4>
+
+        {item.keyPoints && (
+          <ul className="space-y-2 mb-6">
+            {item.keyPoints.map((point, idx) => (
+              <li key={idx} className="flex items-start">
+                <span className="text-indigo-400 mr-2 mt-1">•</span>
+                <span className="text-gray-300">{point}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+
+        {item.statistic && (
+          <div className="mt-6 pt-6 border-t border-white/10">
+            <div className="flex justify-between items-center">
+              <span className="text-gray-400">{item.statistic.label}</span>
+              <span className="text-3xl font-bold text-indigo-300">
+                {item.statistic.value}
+              </span>
+            </div>
+          </div>
+        )}
+      </div>
+    </motion.div>
+  );
+
+  const expertiseItems = [
     {
       icon: <BsCode className="w-8 h-8" />,
-      title: "Modern Technologies",
-      description: "Using latest frameworks and tools"
+      title: "Advanced Development",
+      subtitle: "Cutting-edge implementation strategies",
+      keyPoints: [
+        "React, Angular & Vue for dynamic frontends",
+        "Node.js, Python & Go for high-performance backends",
+        "GraphQL for efficient data querying",
+      ],
+      statistic: {
+        label: "Average performance improvement",
+        value: "68%",
+      },
     },
     {
       icon: <BsServer className="w-8 h-8" />,
-      title: "Scalable Solutions",
-      description: "Built for growth and performance"
+      title: "Scalable Infrastructure",
+      subtitle: "Enterprise-grade architecture",
+      keyPoints: [
+        "Kubernetes orchestration for container management",
+        "Auto-scaling configurations for demand fluctuations",
+        "Load balancing & redundancy planning",
+      ],
+      statistic: {
+        label: "Uptime guarantee",
+        value: "99.99%",
+      },
     },
     {
       icon: <BsGlobe className="w-8 h-8" />,
       title: "Global Reach",
-      description: "Supporting clients worldwide"
-    }
+      subtitle: "Worldwide service delivery",
+      keyPoints: [
+        "Multi-region deployment strategies",
+        "Edge computing for reduced latency",
+        "24/7 global support operations",
+      ],
+      statistic: {
+        label: "Countries served",
+        value: "137+",
+      },
+    },
+    {
+      icon: <BsShield className="w-8 h-8" />,
+      title: "Enterprise Security",
+      subtitle: "Multi-layered protection framework",
+      keyPoints: [
+        "Zero-trust architecture implementation",
+        "End-to-end encryption for sensitive data",
+        "Compliance with GDPR, HIPAA, SOC2 & more",
+      ],
+      statistic: {
+        label: "Vulnerabilities prevented annually",
+        value: "850+",
+      },
+    },
+    {
+      icon: <BsSpeedometer className="w-8 h-8" />,
+      title: "Performance Optimization",
+      subtitle: "Maximum efficiency engineering",
+      keyPoints: [
+        "Sub-100ms response time benchmarks",
+        "Comprehensive performance monitoring",
+        "Advanced image & asset optimization",
+      ],
+      statistic: {
+        label: "Average page load improvement",
+        value: "73%",
+      },
+    },
+    {
+      icon: <BsGraphUp className="w-8 h-8" />,
+      title: "Data Analytics",
+      subtitle: "Actionable business intelligence",
+      keyPoints: [
+        "Real-time analytics dashboards",
+        "Machine learning for predictive modeling",
+        "Custom KPI tracking & reporting",
+      ],
+      statistic: {
+        label: "Average ROI for clients",
+        value: "285%",
+      },
+    },
+    {
+      icon: <BsCloud className="w-8 h-8" />,
+      title: "Cloud Architecture",
+      subtitle: "Optimized cloud environments",
+      keyPoints: [
+        "Multi-cloud & hybrid cloud solutions",
+        "Cost optimization & resource management",
+        "Disaster recovery & business continuity planning",
+      ],
+      statistic: {
+        label: "Average cloud cost reduction",
+        value: "42%",
+      },
+    },
   ];
 
   return (
-    <div className="py-24 bg-gray-900 text-white overflow-hidden">
+    <div className="py-24 bg-gray-900 text-white overflow-hidden relative">
       <div className="container mx-auto px-6">
         <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          className="mb-12"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="mb-16 text-center"
         >
-          <h2 className="text-4xl font-bold text-center">Our Expertise</h2>
+          <span className="text-indigo-400 font-medium text-sm uppercase tracking-wider">
+            Why Choose Us
+          </span>
+          <h2 className="text-4xl md:text-5xl font-bold mt-2 mb-4">
+            Technical Excellence
+          </h2>
+          <p className="text-gray-300 max-w-2xl mx-auto">
+            Our multidisciplinary expertise enables us to solve complex
+            challenges with precision-engineered solutions that deliver
+            measurable business impact.
+          </p>
         </motion.div>
-        
-        <div 
-          ref={containerRef}
-          className="flex overflow-x-scroll snap-x snap-mandatory hide-scrollbar"
-        >
-          {items.map((item, index) => (
-            <motion.div
-              key={index}
-              className="min-w-[300px] md:min-w-[400px] snap-center p-6"
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-            >
-              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-8 border border-white/20">
-                <div className="text-indigo-400 mb-4">{item.icon}</div>
-                <h3 className="text-xl font-bold mb-2">{item.title}</h3>
-                <p className="text-gray-300">{item.description}</p>
-              </div>
-            </motion.div>
-          ))}
+
+        <div className="relative">
+          <button
+            onClick={scrollLeft}
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-1/2 z-10 bg-gray-800/80 hover:bg-indigo-900/80 rounded-full p-2 text-white hidden md:block"
+            aria-label="Scroll left"
+          >
+            <BsArrowLeftCircle size={32} />
+          </button>
+
+          <div
+            ref={containerRef}
+            className="flex overflow-x-scroll snap-x snap-mandatory hide-scrollbar py-8 px-4 -mx-4"
+          >
+            {expertiseItems.map((item, index) => (
+              <ExpertiseCard key={index} item={item} />
+            ))}
+          </div>
+
+          <button
+            onClick={scrollRight}
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-1/2 z-10 bg-gray-800/80 hover:bg-indigo-900/80 rounded-full p-2 text-white hidden md:block"
+            aria-label="Scroll right"
+          >
+            <BsArrowRightCircle size={32} />
+          </button>
         </div>
-        
-        <motion.div
-          className="h-1 bg-indigo-500 mt-8"
-          style={{ scaleX: scrollXProgress }}
-        />
-      </div>
-    </div>
-  );
-};
 
-// Accordion Component
-const Accordion = ({ items }) => {
-  const [openIndex, setOpenIndex] = useState(null);
+        <div className="mt-12 relative">
+          <motion.div
+            className="h-1 bg-indigo-500 absolute left-0 top-0"
+            style={{ scaleX: scrollXProgress, transformOrigin: "0%" }}
+          />
+          <div className="h-1 bg-gray-700 w-full"></div>
+        </div>
 
-  const toggleItem = (index) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
-
-  return (
-    <div className="py-16 bg-gray-100">
-      <div className="container mx-auto px-6">
-        <h2 className="text-3xl font-bold mb-8 text-center text-gray-800">
-          Frequently Asked Questions
-        </h2>
-        {items.map((item, index) => (
-          <motion.div key={index} className="mb-4 rounded-md shadow-sm">
+        <div className="mt-16 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            <p className="text-gray-300 max-w-3xl mx-auto mb-8">
+              Our technical capabilities are continuously enhanced through
+              rigorous research and development initiatives, ensuring we remain
+              at the forefront of technological innovation.
+            </p>
             <motion.button
-              className="flex items-center justify-between w-full py-3 px-4 font-semibold text-left bg-white rounded-t-md focus:outline-none"
-              onClick={() => toggleItem(index)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="bg-indigo-600 hover:bg-indigo-700 text-white py-3 px-8 rounded-full font-medium transition-colors"
             >
-              <span>{item.title}</span>
-              <svg
-                className={`w-5 h-5 transition-transform ${
-                  openIndex === index ? "rotate-180" : ""
-                }`}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
+              Explore Our Solutions
             </motion.button>
-            <motion.div
-              initial={{ height: 0 }}
-              animate={{ height: openIndex === index ? "auto" : 0 }}
-              transition={{ duration: 0.3 }}
-              className="overflow-hidden bg-gray-50 rounded-b-md"
-            >
-              <div className="p-4">{item.content}</div>
-            </motion.div>
           </motion.div>
-        ))}
+        </div>
       </div>
     </div>
   );
@@ -244,44 +373,21 @@ const Accordion = ({ items }) => {
 
 // Card Dropdown Component
 const ServiceCardWithDropdown = ({ service }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
   return (
-    <motion.div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+    <motion.div
+      className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300"
+      whileHover={{ y: -5 }}
+    >
       <div
-        className={`p-6 text-white bg-gradient-to-r ${service.color}`}
-        onClick={() => setIsOpen(!isOpen)}
+        className={`p-6 text-white bg-gradient-to-r h-full ${service.color}`}
       >
-        <div className="mb-4">{service.icon}</div>
-        <h3 className="text-xl font-bold mb-2">{service.title}</h3>
-      </div>
-      <motion.div
-        initial={{ height: 0, opacity: 0 }}
-        animate={{ height: isOpen ? "auto" : 0, opacity: isOpen ? 1 : 0 }}
-        transition={{ duration: 0.3 }}
-        className="p-6 overflow-hidden"
-      >
-        <p className="text-gray-600">
-          {service.extendedDescription || service.description}
+        {service.icon}
+        <h3 className="text-xl font-bold mb-2 mt-1">{service.title}</h3>
+        <p className="text-gray-100 text-sm">{service.description}</p>
+        <p className="text-gray-100 text-sm mt-0.5">
+          {service.extendedDescription}
         </p>
-        {isOpen && (
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            className="mt-4 text-indigo-600 hover:text-indigo-800"
-            onClick={() => setIsOpen(false)}
-          >
-            Read Less
-          </motion.button>
-        )}
-      </motion.div>
-      {!isOpen && (
-        <motion.button
-          onClick={() => setIsOpen(true)}
-          className="block p-4 text-center text-sm font-medium text-indigo-600 hover:text-indigo-800 bg-gray-50"
-        >
-          Learn More
-        </motion.button>
-      )}
+      </div>
     </motion.div>
   );
 };
@@ -300,12 +406,85 @@ const ServicesSection = () => {
     },
     {
       icon: <BsServer className="w-8 h-8" />,
-      title: "App Development",
+      title: "Mobile App Development",
       description:
         "Native and cross-platform mobile applications that deliver seamless user experiences across all devices.",
       color: "from-purple-500 to-pink-400",
       extendedDescription:
         "We build high-performance mobile applications for iOS and Android using technologies like React Native and Swift. Our app development process focuses on user experience and scalability.",
+    },
+    {
+      icon: <BsGear className="w-8 h-8" />,
+      title: "Software Development",
+      description:
+        "Custom software solutions tailored to your business needs with clean, efficient, and scalable code.",
+      color: "from-indigo-500 to-blue-400",
+      extendedDescription:
+        "Our software development team follows industry best practices to deliver robust, scalable, and secure solutions. We employ agile methodologies to ensure continuous delivery and rapid iteration.",
+    },
+    {
+      icon: <BsClipboardCheck className="w-8 h-8" />,
+      title: "Software Testing",
+      description:
+        "Comprehensive testing services to ensure your software is bug-free, secure, and delivers an exceptional user experience.",
+      color: "from-red-500 to-rose-400",
+      extendedDescription:
+        "Our QA team employs manual and automated testing methodologies to identify issues early in the development cycle. We provide detailed reports and recommendations to improve software quality.",
+      features: [
+        "Functional & regression testing",
+        "Performance & load testing",
+        "Security testing & penetration testing",
+        "Automated test suites",
+        "User acceptance testing",
+      ],
+    },
+    {
+      icon: <BsKanban className="w-8 h-8" />,
+      title: "Product Management",
+      description:
+        "Strategic product planning and execution to bring your vision to market with maximum impact and ROI.",
+      color: "from-emerald-500 to-green-400",
+      extendedDescription:
+        "Our product management services help you define, build, and launch successful digital products. We focus on user needs, market opportunities, and business goals to create products that deliver value.",
+      features: [
+        "Product strategy & roadmapping",
+        "User research & journey mapping",
+        "MVP development & validation",
+        "Agile product development",
+        "Product analytics & optimization",
+      ],
+    },
+    {
+      icon: <BsBrush className="w-8 h-8" />,
+      title: "UI/UX Design",
+      description:
+        "User-centered design that creates intuitive, engaging experiences while maintaining brand consistency.",
+      color: "from-violet-500 to-purple-400",
+      extendedDescription:
+        "Our design team creates visually stunning and user-friendly interfaces that enhance user satisfaction and engagement. We combine aesthetics with functionality to deliver exceptional digital experiences.",
+      features: [
+        "User interface design",
+        "User experience research",
+        "Wireframing & prototyping",
+        "Design systems & style guides",
+        "Accessibility compliance",
+      ],
+    },
+    {
+      icon: <BsCart4 className="w-8 h-8" />,
+      title: "E-commerce Solutions",
+      description:
+        "End-to-end e-commerce development with seamless payment processing, inventory management, and customer experience.",
+      color: "from-amber-500 to-yellow-400",
+      extendedDescription:
+        "We build custom e-commerce solutions that help businesses sell products and services online. Our platforms are secure, scalable, and designed to maximize conversions and customer satisfaction.",
+      features: [
+        "Custom e-commerce platforms",
+        "Shopping cart & checkout optimization",
+        "Payment gateway integration",
+        "Inventory & order management",
+        "Customer analytics & personalization",
+      ],
     },
     {
       icon: <BsGlobe className="w-8 h-8" />,
@@ -338,7 +517,7 @@ const ServicesSection = () => {
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
-            Our Expert Services
+            We Offer Comprehensive Services
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
             Comprehensive IT solutions designed to meet your business needs and
@@ -407,13 +586,13 @@ const HeroSection = () => {
           transition={{ duration: 0.8 }}
           className="text-center"
         >
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
+          <h1 className="text-5xl md:text-7xl font-bold text-white mb-3">
             Transforming Ideas Into
-            <span className="block mt-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400">
-              Digital Excellence
+            <span className="text-5xl mt-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400">
+              <br /> Digital Excellence
             </span>
           </h1>
-          <p className="text-lg md:text-xl text-gray-200 max-w-2xl mx-auto mb-8">
+          <p className="text-lg md:text-xl text-gray-200 max-w-2xl mx-auto mb-4">
             Innovative IT solutions tailored to propel your business forward in
             the digital landscape.
           </p>
@@ -471,66 +650,7 @@ const HeroSection = () => {
   );
 };
 
-// Features section with scroll animations
-const FeaturesSection = () => {
-  const containerRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"]
-  });
-  
-  const scale = useTransform(scrollYProgress, [0, 1], [0.8, 1]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [0, 1]);
 
-  return (
-    <div ref={containerRef} className="py-24 bg-indigo-900 text-white">
-      <div className="container mx-auto px-6">
-        <motion.div 
-          style={{ scale, opacity }} 
-          className="text-center mb-16"
-        >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Why Choose Us</h2>
-          <p className="text-indigo-200 max-w-2xl mx-auto">
-            We combine technical expertise with creative innovation to deliver
-            exceptional digital solutions.
-          </p>
-        </motion.div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {[
-            {
-              title: "Technical Excellence",
-              description:
-                "Our team of skilled developers stays at the forefront of technology to deliver cutting-edge solutions.",
-            },
-            {
-              title: "Client-Focused Approach",
-              description:
-                "We prioritize understanding your business goals to create tailored solutions that drive results.",
-            },
-            {
-              title: "Ongoing Support",
-              description:
-                "Our relationship doesn't end at launch. We provide continuous support to ensure lasting success.",
-            },
-          ].map((feature, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-indigo-800/50 backdrop-blur-sm rounded-lg p-8 border border-indigo-700/50"
-            >
-              <h3 className="text-xl font-bold mb-4">{feature.title}</h3>
-              <p className="text-indigo-200">{feature.description}</p>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-};
 
 // Call to Action Component
 const CTASection = () => {
@@ -571,25 +691,6 @@ const Home = () => {
   const [showNotification, setShowNotification] = useState(false);
   const { theme } = useTheme(); // This should now work correctly
 
-  const accordionItems = [
-    {
-      title: "What services do you offer?",
-      content:
-        "We offer web development, app development, SEO & digital marketing, and social media marketing.",
-    },
-    {
-      title: "What technologies do you use?",
-      content:
-        "We primarily use React, Node.js, React Native, and various digital marketing tools.",
-    },
-    {
-      title: "What is your pricing structure?",
-      content:
-        "Our pricing varies depending on the project scope. Please contact us for a detailed quote.",
-    },
-    // Add your accordion data here
-  ];
-
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowNotification(true);
@@ -629,11 +730,8 @@ const Home = () => {
       <Toaster />
       <HeroSection />
       <ServicesSection />
-      <HorizontalScrollSection />
       <CarouselSection />
-      <FeaturesSection />
-      <AnimatedIconsSection />
-      <Accordion items={accordionItems} />
+      <HorizontalScrollSection />
       <CTASection />
     </div>
   );

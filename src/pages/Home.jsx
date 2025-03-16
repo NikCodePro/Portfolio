@@ -672,17 +672,15 @@ const CTASection = () => {
 
 // Update the Home component
 const Home = () => {
-  const [showNotification, setShowNotification] = useState(false);
   const { theme } = useTheme(); // This should now work correctly
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setShowNotification(true);
       toast.success(
         "Welcome to our website! Explore our services or contact us for a consultation.",
         {
           duration: 5000,
-          position: "bottom-right",
+          position: "top-center",
         }
       );
     }, 3000);

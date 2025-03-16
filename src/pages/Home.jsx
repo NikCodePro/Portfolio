@@ -1,10 +1,4 @@
-import React, {
-  useEffect,
-  useState,
-  createContext,
-  useContext,
-  useRef,
-} from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Toaster, toast } from "react-hot-toast";
 import {
@@ -28,30 +22,9 @@ import {
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { MdSettings } from "react-icons/md";
-// Main HomePage Component
 import { useTheme } from "../context/ThemeContext";
 import { images } from "../constants/images";
-// Assuming you installed this: npm install react-icons-animated
-// If not installed or you prefer a different approach, you can skip this for now.
-// import { AnimatedIcon } from 'react-icons-animated';
-
-// Theme Context
-const ThemeContext = createContext();
-
-const ThemeProvider = ({ children }) => {
-  const [theme, setTheme] = useState("light"); // Or 'dark'
-
-  const toggleTheme = () => {
-    setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
-  };
-
-  return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      {children}
-    </ThemeContext.Provider>
-  );
-};
+import { themeStyles } from "../styles/theme";
 
 // Carousel Section
 const CarouselSection = () => {
@@ -81,7 +54,8 @@ const CarouselSection = () => {
             Featured Projects
           </h2>
           <p className="text-gray-300 max-w-2xl mx-auto">
-            Discover our latest work and innovative solutions across multiple industries and technologies
+            Discover our latest work and innovative solutions across multiple
+            industries and technologies
           </p>
         </motion.div>
 
@@ -113,11 +87,15 @@ const CarouselSection = () => {
                     <h3 className="text-2xl font-bold mb-2">{project.title}</h3>
                     <p className="text-gray-200 mb-3">{project.description}</p>
                     <div className="flex flex-wrap gap-2 mt-3">
-                      {project.technologies && project.technologies.map((tech, idx) => (
-                        <span key={idx} className="bg-white/20 backdrop-blur-sm text-white text-xs px-2 py-1 rounded">
-                          {tech}
-                        </span>
-                      ))}
+                      {project.technologies &&
+                        project.technologies.map((tech, idx) => (
+                          <span
+                            key={idx}
+                            className="bg-white/20 backdrop-blur-sm text-white text-xs px-2 py-1 rounded"
+                          >
+                            {tech}
+                          </span>
+                        ))}
                     </div>
                   </div>
                 </div>
@@ -133,8 +111,6 @@ const CarouselSection = () => {
 const HorizontalScrollSection = () => {
   const containerRef = useRef(null);
   const { scrollXProgress } = useScroll({ container: containerRef });
-  const scrollRef = useRef(null);
-
   const scrollLeft = () => {
     if (containerRef.current) {
       containerRef.current.scrollBy({ left: -400, behavior: "smooth" });
@@ -394,6 +370,9 @@ const ServiceCardWithDropdown = ({ service }) => {
 
 // Services Section Component with scroll animations
 const ServicesSection = () => {
+  const { theme } = useTheme();
+  const sectionBgClass = theme === "dark" ? "bg-gray-800" : "bg-gray-50";
+
   const services = [
     {
       icon: <BsCode className="w-8 h-8" />,
@@ -507,7 +486,7 @@ const ServicesSection = () => {
   ];
 
   return (
-    <div className="py-24 bg-gray-50">
+    <div className={`py-24 ${sectionBgClass}`}>
       <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0 }}
@@ -537,11 +516,18 @@ const ServicesSection = () => {
 
 // Hero Section Component
 const HeroSection = () => {
+  const { theme } = useTheme();
   const { scrollYProgress } = useScroll();
   const bgCircleScale = useTransform(scrollYProgress, [0, 1], [1, 1.5]); // Example: circles grow on scroll
+  const bgClass =
+    theme === "dark"
+      ? "bg-gradient-to-br from-gray-900 via-gray-800 to-black"
+      : "bg-gradient-to-br from-indigo-900 via-purple-800 to-violet-900";
 
   return (
-    <div className="relative h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-indigo-900 via-purple-800 to-violet-900">
+    <div
+      className={`relative h-screen flex items-center justify-center overflow-hidden ${bgClass}`}
+    >
       <div className="absolute inset-0 z-0">
         {/* Animated background elements */}
         {Array.from({ length: 20 }).map((_, i) => (
@@ -649,8 +635,6 @@ const HeroSection = () => {
     </div>
   );
 };
-
-
 
 // Call to Action Component
 const CTASection = () => {

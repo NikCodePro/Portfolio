@@ -4,6 +4,7 @@ import { About, Showcase, Home, Services, Contact } from "./pages";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { ThemeProvider } from "./context/ThemeContext";
+import ThemeToggle from "./components/ThemeToggle"; // Import ThemeToggle
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
           <Route path="/contact" element={<Contact />} />
         </Routes>
         <Footer />
+        <ThemeToggle /> {/* Add ThemeToggle here */}
       </BrowserRouter>
     </ThemeProvider>
   );

@@ -110,7 +110,7 @@ const Footer = () => {
       </motion.button>
       
       {/* Main Footer Content */}
-      <div className="relative container mx-auto px-4 py-16">
+      <div className="relative container mx-auto px-10 py-16">
         <motion.div 
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12"
           variants={containerVariants}

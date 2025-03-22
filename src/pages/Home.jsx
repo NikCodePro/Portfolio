@@ -25,6 +25,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { useTheme } from "../context/ThemeContext";
 import { images } from "../constants/images";
 import { themeStyles } from "../styles/theme";
+import { ArrowRight } from "lucide-react";
 
 // Carousel Section
 const CarouselSection = () => {
@@ -673,6 +674,7 @@ const CTASection = () => {
 // Update the Home component
 const Home = () => {
   const { theme } = useTheme(); // This should now work correctly
+  const currentTheme = themeStyles[theme];
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -686,24 +688,7 @@ const Home = () => {
     }, 3000);
 
     return () => clearTimeout(timer);
-  });
-
-  const themeStyles = {
-    light: {
-      backgroundColor: "bg-gradient-to-br from-gray-50 to-white",
-      textColor: "text-gray-900",
-      sectionBg: "bg-white",
-      cardBg: "bg-gray-50",
-    },
-    dark: {
-      backgroundColor: "bg-gradient-to-br from-gray-900 to-black",
-      textColor: "text-white",
-      sectionBg: "bg-gray-800",
-      cardBg: "bg-gray-700",
-    },
-  };
-
-  const currentTheme = themeStyles[theme];
+  }, [theme]);
 
   return (
     <div

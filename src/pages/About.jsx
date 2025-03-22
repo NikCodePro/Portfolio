@@ -8,16 +8,10 @@ const About = () => {
   const scrollControls = useAnimation();
   
   useEffect(() => {
-    const animateScroll = async () => {
-      while (true) {
-        await scrollControls.start({
-          y: [0, 10, 0],
-          transition: { duration: 2, repeat: Infinity }
-        });
-      }
-    };
-    
-    animateScroll();
+    scrollControls.start({
+      y: [0, 10, 0],
+      transition: { duration: 2, repeat: Infinity }
+    });
   }, [scrollControls]);
 
   const fadeInUp = {

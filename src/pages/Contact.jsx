@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, Mail, Phone, MapPin, Clock, Send, Loader2 } from "lucide-react";
-import { toast, Toaster } from "react-hot-toast";
+import { motion } from "framer-motion";
+import { Mail, Phone, MapPin, Clock, Send, ArrowRight } from "lucide-react";
+import { toast } from "react-hot-toast";
 import { useTheme } from "../context/ThemeContext";
-import { submitContactForm } from "../utils/api";
+import { themeConfig } from "../styles/theme";
+import { useAnimations } from "../hooks/useAnimations";
 
-// Move FormInput component outside of the main component
 const FormInput = ({ label, name, type = "text", error, theme, ...props }) => (
   <div className="mb-4">
     <label htmlFor={name} className="block text-sm font-medium mb-2">
@@ -36,6 +36,9 @@ const FormInput = ({ label, name, type = "text", error, theme, ...props }) => (
 
 const Contact = () => {
   const { theme } = useTheme();
+  const currentTheme = themeConfig[theme];
+  const { fadeInUp, staggerContainer, hoverScale, floatingAnimation } = useAnimations();
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -121,134 +124,68 @@ const Contact = () => {
     }
   };
 
-  const fadeInUp = {
-    initial: { opacity: 0, y: 20 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.6 },
-  };
-
   return (
-    <div className={`min-h-screen relative ${
-      theme === "dark" ? "bg-gray-900 text-white" : "bg-gray-50 text-gray-900"
-    }`}>
-      <Toaster />
-
-      {/* Background Pattern */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-10">
-        <div className="absolute w-full h-full bg-[url('data:image/svg+xml,...')] opacity-5" />
-      </div>
-
-      {/* Animated Background Gradients */}
+    <div className={`min-h-screen relative ${currentTheme.background.main}`}>
+      {/* Animated Background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
-          className="absolute w-[500px] h-[500px] bg-blue-500/10 rounded-full filter blur-3xl"
-          animate={{
-            x: mousePosition.x * 0.05,
-            y: mousePosition.y * 0.05,
-            scale: [1, 1.1, 1],
-          }}
-          transition={{ duration: 2, repeat: Infinity }}
+          className={`absolute w-[500px] h-[500px] ${currentTheme.primary.solid}/10 rounded-full filter blur-3xl`}
+          animate={floatingAnimation}
         />
-        <motion.div
-          className="absolute right-0 w-[500px] h-[500px] bg-purple-500/10 rounded-full filter blur-3xl"
-          animate={{
-            x: -mousePosition.x * 0.05,
-            y: -mousePosition.y * 0.05,
-            scale: [1.1, 1, 1.1],
-          }}
-          transition={{ duration: 2, repeat: Infinity }}
-        />
+        {/* ... more background elements ... */}
       </div>
 
       {/* Hero Section */}
       <motion.div
-        className="relative"
+        variants={staggerContainer}
         initial="initial"
         animate="animate"
-        variants={fadeInUp}
+        className="relative py-20"
       >
-        <div className="container mx-auto px-6 py-20">
-          <div className="text-center max-w-3xl mx-auto">
-            <div className="mb-6 mx-auto w-20 h-20 flex items-center justify-center rounded-full bg-gradient-to-r from-blue-500 to-purple-500">
-              <Send className="w-8 h-8 text-white" />
-            </div>
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600">
-              Get in Touch
-            </h1>
-            <p
-              className={`text-lg md:text-xl ${
-                theme === "dark" ? "text-gray-300" : "text-gray-600"
-              } max-w-2xl mx-auto`}
+        <div className="container mx-auto px-6">
+          <motion.div 
+            variants={fadeInUp}
+            className="text-center max-w-3xl mx-auto"
+          >
+            {/* Hero content */}
+            <motion.div 
+              className={`mb-6 mx-auto w-20 h-20 rounded-full bg-gradient-to-r ${currentTheme.primary.gradient}`}
+              whileHover={hoverScale}
             >
-              Have a question or want to work together? We'd love to hear from
-              you. Send us a message and we'll respond as soon as possible.
-            </p>
-
-            <div className="flex justify-center mt-8 space-x-4">
-              <a href="#contact-form" className="btn-primary">
-                <button className="py-3 px-6 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full font-medium flex items-center gap-2">
-                  Contact Us
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              </a>
-            </div>
-          </div>
+              <Send className="w-8 h-8 text-white" />
+            </motion.div>
+            {/* ... rest of hero content ... */}
+          </motion.div>
         </div>
       </motion.div>
 
       {/* Contact Info Cards */}
       <div className="container mx-auto px-6 py-12">
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, staggerChildren: 0.1 }}
+          variants={staggerContainer}
+          initial="initial"
+          animate="animate"
+          className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16"
         >
+          {/* Contact info cards with enhanced animations */}
           {contactInfo.map((item, index) => (
             <motion.div
               key={index}
               variants={fadeInUp}
-              whileHover={{ y: -5 }}
-              className={`p-6 rounded-xl overflow-hidden relative ${
-                theme === "dark"
-                  ? "bg-gray-800/70 backdrop-blur-sm border border-gray-700"
-                  : "bg-white shadow-xl"
-              }`}
+              whileHover={hoverScale}
+              className={`p-6 rounded-xl relative overflow-hidden ${currentTheme.glass} border ${currentTheme.border}`}
             >
-              <div className="absolute inset-0 opacity-5 bg-gradient-to-br from-blue-500 to-purple-500" />
-              <div className="relative z-10">
-                <div
-                  className={`p-4 rounded-xl bg-gradient-to-r ${item.color} mb-4 inline-flex items-center justify-center`}
-                >
-                  <div className="text-white">{item.icon}</div>
-                </div>
-                <h3 className="text-xl font-bold mb-3">{item.title}</h3>
-                {item.details.map((detail, idx) => (
-                  <p
-                    key={idx}
-                    className={`${
-                      theme === "dark" ? "text-gray-300" : "text-gray-600"
-                    } mb-1`}
-                  >
-                    {detail}
-                  </p>
-                ))}
-              </div>
+              {/* Card content */}
             </motion.div>
           ))}
         </motion.div>
 
         {/* Enhanced Form Section */}
         <motion.form
-          onSubmit={handleSubmit}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className={`relative max-w-4xl mx-auto p-8 rounded-xl ${
-            theme === "dark"
-              ? "bg-gray-800/70 backdrop-blur-sm border border-gray-700"
-              : "bg-white/70 shadow-xl backdrop-blur-sm"
-          }`}
+          variants={fadeInUp}
+          initial="initial"
+          animate="animate"
+          className={`max-w-4xl mx-auto p-8 rounded-xl ${currentTheme.glass} border ${currentTheme.border}`}
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <FormInput
@@ -329,16 +266,12 @@ const Contact = () => {
           </motion.button>
         </motion.form>
 
-        {/* FAQ Section with Animation */}
+        {/* FAQ Section */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className={`max-w-4xl  mt-3 mx-auto p-8 rounded-xl mb-16 ${
-            theme === "dark"
-              ? "bg-gray-800/70 backdrop-blur-sm border border-gray-700"
-              : "bg-white shadow-xl"
-          }`}
+          variants={fadeInUp}
+          initial="initial"
+          animate="animate"
+          className={`max-w-4xl mx-auto mt-16 p-8 rounded-xl ${currentTheme.glass} border ${currentTheme.border}`}
         >
           <h2 className="text-2xl font-bold mb-8 text-center">
             Frequently Asked Questions

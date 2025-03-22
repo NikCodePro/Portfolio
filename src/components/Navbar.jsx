@@ -3,8 +3,13 @@ import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import { BsCodeSlash, BsHouseDoor, BsPerson, BsBriefcase, BsCollection, BsEnvelope } from 'react-icons/bs';
+import { themeStyles } from '../styles/theme';
+import { useTheme } from '../context/ThemeContext';
 
 const Navbar = () => {
+  const { theme } = useTheme();
+  const currentTheme = themeStyles[theme];
+  
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();

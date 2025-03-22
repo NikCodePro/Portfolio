@@ -1,43 +1,47 @@
 export const themeStyles = {
   light: {
     primary: {
-      gradient: "from-blue-500 to-purple-500",
+      gradient: "from-blue-500 via-purple-500 to-indigo-500",
       hover: "hover:from-blue-600 hover:to-purple-600",
       solid: "bg-blue-500",
-      text: "text-blue-500"
+      text: "text-blue-600"
     },
     background: {
-      main: "bg-gradient-to-br from-gray-50 to-white",
-      card: "bg-white",
-      section: "bg-gray-50"
+      main: "bg-gray-50",
+      overlay: "bg-gradient-to-br from-blue-600/90 to-purple-700/90",
+      card: "bg-white/80",
+      section: "bg-white/50"
     },
     text: {
       primary: "text-gray-900",
       secondary: "text-gray-600",
-      accent: "text-blue-500"
+      muted: "text-gray-500",
+      accent: "text-blue-600"
     },
     border: "border-gray-200",
-    glass: "bg-white/70 backdrop-blur-sm"
+    glass: "backdrop-blur-md bg-white/80"
   },
   dark: {
     primary: {
-      gradient: "from-blue-400 to-purple-400",
-      hover: "hover:from-blue-500 hover:to-purple-500",
-      solid: "bg-blue-400",
+      gradient: "from-blue-600 via-purple-600 to-purple-700",
+      hover: "hover:from-blue-700 hover:to-purple-800",
+      solid: "bg-blue-600",
       text: "text-blue-400"
     },
     background: {
-      main: "bg-gradient-to-br from-gray-900 to-black",
-      card: "bg-gray-800",
-      section: "bg-gray-900"
+      main: "bg-gray-900",
+      overlay: "bg-gradient-to-br from-gray-900 via-gray-800 to-black opacity-90",
+      card: "bg-gray-800/30",
+      section: "bg-gray-800/50"
     },
     text: {
       primary: "text-white",
       secondary: "text-gray-300",
+      muted: "text-gray-400",
       accent: "text-blue-400"
     },
     border: "border-gray-700",
-    glass: "bg-gray-800/70 backdrop-blur-sm"
+    glass: "backdrop-blur-md bg-gray-800/30"
   }
 };
 

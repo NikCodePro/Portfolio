@@ -166,11 +166,10 @@ const services = [
   },
 ];
 
-
 // Update the ServiceModal component to receive currentTheme as a prop
 const ServiceModal = ({ service, isOpen, onClose, currentTheme }) => {
   const { theme } = useTheme();
-  
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -204,7 +203,7 @@ const ServiceModal = ({ service, isOpen, onClose, currentTheme }) => {
                   }}
                   className={`absolute -inset-40 bg-gradient-to-r ${service.color} opacity-10 blur-3xl gradient-bg`}
                 />
-                
+
                 <motion.div
                   animate={{
                     x: [0, 100, 0],
@@ -291,14 +290,18 @@ const ServiceCard = ({ service, onClick, currentTheme }) => {
       className="relative group cursor-pointer"
     >
       <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-white/5 rounded-xl blur-xl transform group-hover:scale-110 transition-transform duration-300" />
-      
-      <div className={`relative p-6 rounded-xl glass-morphism
+
+      <div
+        className={`relative p-6 rounded-xl glass-morphism
         border border-white/10 hover:border-white/20 transition-all duration-300
-        backdrop-blur-lg shadow-xl`}>
+        backdrop-blur-lg shadow-xl`}
+      >
         <div className="relative z-10">
-          <div className={`w-12 h-12 rounded-lg bg-gradient-to-r ${service.color} 
+          <div
+            className={`w-12 h-12 rounded-lg bg-gradient-to-r ${service.color} 
             flex items-center justify-center mb-4 group-hover:scale-110 
-            transition-transform duration-300 animate-float`}>
+            transition-transform duration-300 animate-float`}
+          >
             {service.icon}
           </div>
           <h3 className={`text-xl ${currentTheme.text.primary} font-bold mb-2`}>
@@ -328,7 +331,7 @@ const Services = () => {
   return (
     <Layout>
       {/* Enhanced Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden py-20 sm:py-32">
         {/* Animated Background */}
         <div
           className={`absolute inset-0 ${
@@ -340,14 +343,14 @@ const Services = () => {
           <div className="absolute inset-0 opacity-10 bg-pattern"></div>
         </div>
 
-        {/* Floating Gradients */}
+        {/* Floating Gradients - Responsive sizes */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-purple-500/30 rounded-full mix-blend-multiply filter blur-xl animate-blob"></div>
-          <div className="absolute top-1/3 right-1/3 w-64 h-64 bg-yellow-500/30 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000"></div>
-          <div className="absolute bottom-1/4 left-1/2 w-64 h-64 bg-pink-500/30 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-4000"></div>
+          <div className="absolute top-1/4 left-1/4 w-48 h-48 md:w-64 md:h-64 bg-purple-500/30 rounded-full mix-blend-multiply filter blur-xl animate-blob"></div>
+          <div className="absolute top-1/3 right-1/3 w-48 h-48 md:w-64 md:h-64 bg-yellow-500/30 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000"></div>
+          <div className="absolute bottom-1/4 left-1/2 w-48 h-48 md:w-64 md:h-64 bg-pink-500/30 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-4000"></div>
         </div>
 
-        <div className="container mx-auto px-6 relative z-10">
+        <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -358,7 +361,7 @@ const Services = () => {
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="inline-block px-6 py-3 border border-white/20 rounded-full text-sm font-medium mb-8 backdrop-blur-sm"
+              className="inline-block px-4 sm:px-6 py-2 sm:py-3 border border-white/20 rounded-full text-xs sm:text-sm font-medium mb-6 sm:mb-8 backdrop-blur-sm"
             >
               INNOVATIVE SOLUTIONS FOR THE DIGITAL AGE
             </motion.div>
@@ -367,18 +370,19 @@ const Services = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="text-5xl md:text-7xl font-bold mb-8 leading-tight"
+              className="text-3xl sm:text-5xl md:text-7xl font-bold mb-4 sm:mb-8 leading-tight px-4"
             >
               Transform Your Vision
-              <br />
-              Into <span className="text-yellow-300">Digital Excellence</span>
+              <br className="hidden sm:block" />
+              Into{" "}
+              <span className="text-yellow-300 inline-block">Digital Excellence</span>
             </motion.h1>
 
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6 }}
-              className="text-xl md:text-2xl text-gray-200 max-w-3xl mx-auto mb-12"
+              className="text-lg sm:text-xl md:text-2xl text-gray-200 max-w-[90%] sm:max-w-2xl md:max-w-3xl mx-auto mb-8 sm:mb-12 px-4"
             >
               Discover our comprehensive range of services designed to elevate
               your business in the digital landscape
@@ -388,56 +392,49 @@ const Services = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8 }}
-              className="flex items-center justify-center gap-6"
+              className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 px-4"
             >
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-8 py-4 bg-white text-gray-900 rounded-full font-medium hover:bg-yellow-300 transition duration-300 shadow-lg flex items-center gap-2"
+                className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-white text-gray-900 rounded-full font-medium hover:bg-yellow-300 transition duration-300 shadow-lg flex items-center justify-center gap-2"
               >
-                Explore Showcase <BsArrowRight />
-              </motion.button>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-8 py-4 border-2 border-white rounded-full font-medium hover:bg-white/10 transition duration-300"
-              >
-                Get in Touch
+                Get in Touch <BsArrowRight className="text-xl" />
               </motion.button>
             </motion.div>
           </motion.div>
         </div>
 
-        {/* Scroll Indicator */}
-        <motion.div
-          animate={{
-            y: [0, 10, 0],
-          }}
-          transition={{
-            duration: 1.5,
-            repeat: Infinity,
-            repeatType: "reverse",
-          }}
-          className="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-white cursor-pointer"
-        >
-          <div className="w-6 h-10 border-2 border-white rounded-full flex items-start justify-center p-2">
-            <motion.div
-              animate={{
-                y: [0, 12, 0],
-              }}
-              transition={{
-                duration: 1.5,
-                repeat: Infinity,
-                repeatType: "reverse",
-              }}
-              className="w-1 h-1 bg-white rounded-full"
-            ></motion.div>
-          </div>
-        </motion.div>
+        {/* Scroll Indicator - Hide on smaller screens */}
+        <div className="absolute bottom-8 sm:bottom-12 left-0 right-0 hidden sm:flex justify-center">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1, duration: 0.5 }}
+            className="animate-bounce"
+          >
+            <div className="text-white text-center">
+              <p className="mb-2 text-sm font-light">Scroll to explore</p>
+              <svg
+                className="w-6 h-6 mx-auto"
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+              </svg>
+            </div>
+          </motion.div>
+        </div>
       </section>
 
       {/* Services Section with existing code */}
-      <div className={`${currentTheme.background.section} py-24 relative overflow-hidden`}>
+      <div
+        className={`${currentTheme.background.section} py-24 relative overflow-hidden`}
+      >
         {/* Animated Background Elements */}
         <div className="absolute inset-0">
           <motion.div
@@ -481,7 +478,9 @@ const Services = () => {
             >
               OUR EXPERTISE
             </div>
-            <h1 className={`text-4xl md:text-6xl ${currentTheme.text.primary} font-bold mb-6`}>
+            <h1
+              className={`text-4xl md:text-6xl ${currentTheme.text.primary} font-bold mb-6`}
+            >
               Transforming Ideas into
               <span className="text-blue-600 dark:text-blue-400">
                 {" "}
@@ -522,6 +521,190 @@ const Services = () => {
         onClose={() => setSelectedService(null)}
         currentTheme={currentTheme}
       />
+
+      {/* Our Process Section */}
+      <section className="relative py-24 overflow-hidden">
+        {/* Animated Background */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/30">
+          <motion.div
+            animate={{
+              x: [-20, 20, -20],
+              y: [-10, 10, -10],
+            }}
+            transition={{
+              duration: 20,
+              repeat: Infinity,
+              repeatType: "reverse",
+            }}
+            className="absolute inset-0 opacity-50"
+            style={{
+              backgroundImage:
+                'url("https://plus.unsplash.com/premium_photo-1682308349934-9b0848826813?q=80&w=1972&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")',
+              backgroundSize: "fit",
+              backgroundPosition: "center",
+            }}
+          />
+        </div>
+
+        {/* Content */}
+        <div className="container mx-auto px-6 relative z-10">
+          {/* Section Header */}
+          <motion.div
+            variants={fadeInUp}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <div
+              className={`inline-block px-4 py-2 rounded-full ${
+                theme === "dark" ? "bg-purple-900/30" : "bg-purple-100"
+              } text-purple-600 text-sm font-medium mb-6`}
+            >
+              OUR APPROACH
+            </div>
+            <h2
+              className={`text-4xl md:text-5xl ${currentTheme.text.primary} font-bold mb-6`}
+            >
+              How We Bring Your Vision to Life
+            </h2>
+            <p
+              className={`${currentTheme.text.secondary} max-w-2xl mx-auto text-lg`}
+            >
+              Our proven process ensures successful delivery of your digital
+              solutions through systematic planning, development, and deployment
+            </p>
+          </motion.div>
+
+          {/* Process Steps */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 relative">
+            {[
+              {
+                icon: "🎯",
+                title: "Discovery & Planning",
+                description:
+                  "We start by understanding your goals, requirements, and vision through detailed consultation.",
+                color: "from-purple-500 to-pink-500",
+              },
+              {
+                icon: "💡",
+                title: "Design & Strategy",
+                description:
+                  "Creating comprehensive blueprints and strategies tailored to your specific needs.",
+                color: "from-blue-500 to-cyan-500",
+              },
+              {
+                icon: "⚙️",
+                title: "Development & Testing",
+                description:
+                  "Bringing your solution to life with agile development and rigorous testing.",
+                color: "from-green-500 to-emerald-500",
+              },
+              {
+                icon: "🚀",
+                title: "Launch & Support",
+                description:
+                  "Seamless deployment with continued support and optimization services.",
+                color: "from-yellow-500 to-orange-500",
+              },
+            ].map((step, index) => (
+              <motion.div
+                key={index}
+                variants={{
+                  initial: { opacity: 0, y: 20 },
+                  animate: { opacity: 1, y: 0 },
+                }}
+                initial="initial"
+                whileInView="animate"
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.2 }}
+                className="relative"
+              >
+                {/* Step Number */}
+                <div
+                  className={`absolute -top-4 -left-4 w-8 h-8 rounded-full ${currentTheme.background.primary} backdrop-blur-sm flex items-center justify-center text-sm font-bold ${currentTheme.text.primary} `}
+                >
+                  {index + 1}
+                </div>
+
+                {/* Card */}
+                <div className="glass-morphism rounded-xl p-6 h-full border border-white/10 backdrop-blur-xs">
+                  {/* Icon */}
+                  <div
+                    className={`w-16 h-16 rounded-full bg-gradient-to-r ${step.color} 
+                    flex items-center justify-center text-3xl mb-6 animate-float`}
+                  >
+                    {step.icon}
+                  </div>
+
+                  <h3
+                    className={`text-xl font-bold mb-4 ${currentTheme.text.primary}`}
+                  >
+                    {step.title}
+                  </h3>
+
+                  <p className={`${currentTheme.text.secondary}`}>
+                    {step.description}
+                  </p>
+
+                  {/* Animated Gradient Border */}
+                  <motion.div
+                    className={`absolute inset-0 rounded-xl bg-gradient-to-r ${step.color} opacity-0 
+                      transition-opacity duration-300 -z-10`}
+                    whileHover={{ opacity: 0.1 }}
+                  />
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Additional Features */}
+          <motion.div
+            variants={fadeInUp}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            className="mt-16 grid md:grid-cols-3 gap-8"
+          >
+            {[
+              {
+                title: "Agile Methodology",
+                description:
+                  "Iterative development with continuous feedback and improvements",
+                icon: "🔄",
+              },
+              {
+                title: "Quality Assurance",
+                description:
+                  "Comprehensive testing at every stage of development",
+                icon: "✅",
+              },
+              {
+                title: "Continuous Support",
+                description:
+                  "Dedicated support team for post-launch maintenance",
+                icon: "🛠️",
+              },
+            ].map((feature, index) => (
+              <motion.div
+                key={index}
+                whileHover={{ y: -5 }}
+                className="glass-morphism p-6 rounded-xl border border-white/10 backdrop-blur-xs"
+              >
+                <div className="text-3xl mb-4">{feature.icon}</div>
+                <h4
+                  className={`text-lg font-bold mb-2 ${currentTheme.text.primary}`}
+                >
+                  {feature.title}
+                </h4>
+                <p className={`${currentTheme.text.secondary}`}>
+                  {feature.description}
+                </p>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
 
       {/* Enhanced CTA Section */}
       <section className={`relative overflow-hidden py-24`}>

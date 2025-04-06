@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { useNavigate, Link } from "react-router-dom";
 import { Toaster, toast } from "react-hot-toast";
 import {
   BsArrowRight,
@@ -26,6 +27,45 @@ import { useTheme } from "../context/ThemeContext";
 import { images } from "../constants/images";
 import { themeStyles } from "../styles/theme";
 import { ArrowRight } from "lucide-react";
+
+// Animation Variants
+const fadeInUp = {
+  initial: {
+    opacity: 0,
+    y: 60,
+  },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: [0.6, -0.05, 0.01, 0.99],
+    },
+  },
+};
+
+const staggerContainer = {
+  initial: {},
+  animate: {
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const fadeInScale = {
+  initial: {
+    opacity: 0,
+    scale: 0.8,
+  },
+  animate: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 0.6,
+    },
+  },
+};
 
 // Carousel Section
 const CarouselSection = () => {
@@ -112,6 +152,7 @@ const CarouselSection = () => {
 const HorizontalScrollSection = () => {
   const containerRef = useRef(null);
   const { scrollXProgress } = useScroll({ container: containerRef });
+
   const scrollLeft = () => {
     if (containerRef.current) {
       containerRef.current.scrollBy({ left: -400, behavior: "smooth" });
@@ -126,35 +167,35 @@ const HorizontalScrollSection = () => {
 
   const ExpertiseCard = ({ item }) => (
     <motion.div
-      className="min-w-[300px] md:min-w-[400px] lg:min-w-[450px] snap-center p-6"
+      className="min-w-[280px] sm:min-w-[320px] md:min-w-[400px] lg:min-w-[450px] snap-center p-4 sm:p-6"
       initial={{ opacity: 0, x: 50 }}
       whileInView={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="bg-white/10 backdrop-blur-sm rounded-xl p-8 border border-white/20 h-full hover:bg-white/15 transition-all">
-        <div className="flex items-center mb-6">
-          <div className="bg-indigo-900/60 rounded-lg p-3 mr-4 text-indigo-400">
+      <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 h-full hover:bg-white/15 transition-all">
+        <div className="flex items-center mb-4 sm:mb-6">
+          <div className="bg-indigo-900/60 rounded-lg p-3 mr-3 sm:mr-4 text-indigo-400">
             {item.icon}
           </div>
-          <h3 className="text-2xl font-bold">{item.title}</h3>
+          <h3 className="text-xl sm:text-2xl font-bold">{item.title}</h3>
         </div>
         <h4 className="text-indigo-300 font-medium mb-4">{item.subtitle}</h4>
-
         {item.keyPoints && (
           <ul className="space-y-2 mb-6">
             {item.keyPoints.map((point, idx) => (
               <li key={idx} className="flex items-start">
                 <span className="text-indigo-400 mr-2 mt-1">•</span>
-                <span className="text-gray-300">{point}</span>
+                <span className="text-gray-300 text-sm">{point}</span>
               </li>
             ))}
           </ul>
         )}
-
         {item.statistic && (
           <div className="mt-6 pt-6 border-t border-white/10">
             <div className="flex justify-between items-center">
-              <span className="text-gray-400">{item.statistic.label}</span>
+              <span className="text-gray-400 text-sm">
+                {item.statistic.label}
+              </span>
               <span className="text-3xl font-bold text-indigo-300">
                 {item.statistic.value}
               </span>
@@ -268,17 +309,17 @@ const HorizontalScrollSection = () => {
 
   return (
     <div className="py-24 bg-gray-900 text-white overflow-hidden relative">
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-4 sm:px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="mb-16 text-center"
+          className="mb-12 sm:mb-16 text-center"
         >
           <span className="text-indigo-400 font-medium text-sm uppercase tracking-wider">
             Why Choose Us
           </span>
-          <h2 className="text-4xl md:text-5xl font-bold mt-2 mb-4">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mt-2 mb-4">
             Technical Excellence
           </h2>
           <p className="text-gray-300 max-w-2xl mx-auto">
@@ -287,7 +328,6 @@ const HorizontalScrollSection = () => {
             measurable business impact.
           </p>
         </motion.div>
-
         <div className="relative">
           <button
             onClick={scrollLeft}
@@ -296,16 +336,14 @@ const HorizontalScrollSection = () => {
           >
             <BsArrowLeftCircle size={32} />
           </button>
-
           <div
             ref={containerRef}
-            className="flex overflow-x-scroll snap-x snap-mandatory hide-scrollbar py-8 px-4 -mx-4"
+            className="flex overflow-x-scroll snap-x snap-mandatory hide-scrollbar py-8 px-4 -mx-4 gap-4"
           >
             {expertiseItems.map((item, index) => (
               <ExpertiseCard key={index} item={item} />
             ))}
           </div>
-
           <button
             onClick={scrollRight}
             className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-1/2 z-10 bg-gray-800/80 hover:bg-indigo-900/80 rounded-full p-2 text-white hidden md:block"
@@ -314,7 +352,6 @@ const HorizontalScrollSection = () => {
             <BsArrowRightCircle size={32} />
           </button>
         </div>
-
         <div className="mt-12 relative">
           <motion.div
             className="h-1 bg-indigo-500 absolute left-0 top-0"
@@ -322,7 +359,6 @@ const HorizontalScrollSection = () => {
           />
           <div className="h-1 bg-gray-700 w-full"></div>
         </div>
-
         <div className="mt-16 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -339,7 +375,7 @@ const HorizontalScrollSection = () => {
               whileTap={{ scale: 0.95 }}
               className="bg-indigo-600 hover:bg-indigo-700 text-white py-3 px-8 rounded-full font-medium transition-colors"
             >
-              Explore Our Solutions
+              <Link to="/about">Explore Our Solutions</Link>
             </motion.button>
           </motion.div>
         </div>
@@ -490,18 +526,36 @@ const ServicesSection = () => {
     <div className={`py-24 ${sectionBgClass}`}>
       <div className="container mx-auto px-6">
         <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          variants={fadeInUp}
+          initial="initial"
+          animate="animate"
           className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
-            We Offer Comprehensive Services
-          </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
-            Comprehensive IT solutions designed to meet your business needs and
-            drive innovation.
+          <div
+            className={`inline-block px-4 py-2 rounded-full ${
+              theme === "dark" ? "bg-blue-900/30" : "bg-blue-100"
+            } text-blue-600 text-sm font-medium mb-6`}
+          >
+            OUR EXPERTISE
+          </div>
+          <h1
+            className={`text-4xl md:text-6xl ${
+              theme === "dark" ? "text-white" : "text-gray-900"
+            } font-bold mb-6`}
+          >
+            Transforming Ideas into
+            <span className="text-blue-600 dark:text-blue-400">
+              {" "}
+              Digital Reality
+            </span>
+          </h1>
+          <p
+            className={`${
+              theme === "dark" ? "text-gray-300" : "text-gray-600"
+            } max-w-2xl mx-auto text-lg`}
+          >
+            We deliver cutting-edge solutions tailored to your business needs,
+            helping you stay ahead in the digital landscape
           </p>
         </motion.div>
 
@@ -517,6 +571,7 @@ const ServicesSection = () => {
 
 // Hero Section Component
 const HeroSection = () => {
+  const navigate = useNavigate();
   const { theme } = useTheme();
   const { scrollYProgress } = useScroll();
   const bgCircleScale = useTransform(scrollYProgress, [0, 1], [1, 1.5]); // Example: circles grow on scroll
@@ -588,11 +643,7 @@ const HeroSection = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="px-8 py-3 rounded-lg bg-white text-indigo-900 font-semibold flex items-center justify-center gap-2 hover:shadow-lg transition-all"
-              onClick={() =>
-                toast.success(
-                  "Thank you for your interest! Scrolling to services..."
-                )
-              }
+              onClick={() => navigate("/Services")}
             >
               Explore Services <BsArrowRight />
             </motion.button>
@@ -600,9 +651,7 @@ const HeroSection = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="px-8 py-3 rounded-lg bg-transparent border-2 border-white text-white font-semibold flex items-center justify-center gap-2 hover:bg-white/10 transition-all"
-              onClick={() =>
-                toast.success("Contact form is ready for your inquiry!")
-              }
+              onClick={() => navigate("/Contact")}
             >
               Contact Us
             </motion.button>
@@ -656,12 +705,12 @@ const CTASection = () => {
             business goals and stay ahead of the competition.
           </p>
           <motion.button
+            onClick={() => navigate("/Contact")}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className="px-8 py-3 bg-white text-indigo-700 font-semibold rounded-lg hover:shadow-lg transition-all"
-            onClick={() => toast.success("Contact form activated!")}
           >
-            Get Started Today
+            <Link to="/Contact">Get Started Today</Link>
           </motion.button>
         </motion.div>
       </div>

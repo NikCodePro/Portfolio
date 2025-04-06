@@ -63,6 +63,22 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+.glass-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 /* Add backdrop-filter support */
 @supports (backdrop-filter: blur(12px)) {
   .backdrop-blur-xl {

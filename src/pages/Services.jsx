@@ -17,6 +17,7 @@ import {
   BsCart4,
   BsGlobe,
 } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 // import { services } from '../data/services'; // Move your services array to a separate file
 
 const services = [
@@ -327,6 +328,7 @@ const Services = () => {
   const { theme } = useTheme();
   const currentTheme = themeConfig[theme];
   const { fadeInUp, staggerContainer, hoverScale } = useAnimations();
+  const navigate = useNavigate();
 
   return (
     <Layout>
@@ -375,7 +377,9 @@ const Services = () => {
               Transform Your Vision
               <br className="hidden sm:block" />
               Into{" "}
-              <span className="text-yellow-300 inline-block">Digital Excellence</span>
+              <span className="text-yellow-300 inline-block">
+                Digital Excellence
+              </span>
             </motion.h1>
 
             <motion.p
@@ -395,6 +399,7 @@ const Services = () => {
               className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 px-4"
             >
               <motion.button
+                onClick={() => navigate("/Contact")}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-white text-gray-900 rounded-full font-medium hover:bg-yellow-300 transition duration-300 shadow-lg flex items-center justify-center gap-2"
@@ -620,13 +625,6 @@ const Services = () => {
                 transition={{ delay: index * 0.2 }}
                 className="relative"
               >
-                {/* Step Number */}
-                <div
-                  className={`absolute -top-4 -left-4 w-8 h-8 rounded-full ${currentTheme.background.primary} backdrop-blur-sm flex items-center justify-center text-sm font-bold ${currentTheme.text.primary} `}
-                >
-                  {index + 1}
-                </div>
-
                 {/* Card */}
                 <div className="glass-morphism rounded-xl p-6 h-full border border-white/10 backdrop-blur-xs">
                   {/* Icon */}
@@ -729,6 +727,9 @@ const Services = () => {
               success
             </p>
             <motion.button
+              onClick={() => {
+                navigate("/About");
+              }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="px-8 py-4 bg-white text-gray-900 rounded-full font-medium hover:bg-yellow-300 transition duration-300 shadow-lg inline-flex items-center gap-2"

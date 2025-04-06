@@ -11,7 +11,7 @@ const Footer = () => {
     {
       title: "Navigation",
       links: [
-        { name: "Home", path: "/" },
+        { name: "Services", path: "/services" },
         { name: "About", path: "/about" },
         { name: "Showcase", path: "/showcase" },
         { name: "Contact", path: "/contact" },

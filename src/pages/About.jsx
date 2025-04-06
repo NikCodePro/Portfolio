@@ -21,12 +21,14 @@ import {
 // import { RiApiLine as RiApiFill } from "react-icons/ri";
 import { useTheme } from "../context/ThemeContext";
 import { themeConfig } from "../styles/theme";
+import { useNavigate } from "react-router-dom";
 
 const About = () => {
   const { theme } = useTheme();
   const currentTheme = themeConfig[theme];
   const scrollControls = useAnimation();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     scrollControls.start({
@@ -688,6 +690,7 @@ const About = () => {
               Let's create something amazing together.
             </p>
             <button
+            onClick={()=>{navigate("/Contact")}}
               className={`px-8 py-3 bg-white text-gray-900 rounded-full font-medium hover:bg-yellow-300 hover:text-gray-900 transition duration-300 shadow-lg text-lg`}
             >
               Get in Touch

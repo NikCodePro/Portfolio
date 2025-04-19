@@ -56,16 +56,16 @@ const Navbar = () => {
       initial="hidden"
       animate="visible"
     >
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
+      <div className="container mx-auto px-4 py-1 h-[70px] flex items-center justify-between">
+        <div className="flex items-center justify-between w-full"> 
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <Link to="/" className="flex items-center space-x-2 text-white">
-              <BsCodeSlash className="text-2xl" />
-              <span className="text-xl font-bold">Portfolio</span>
+            <Link to="/" className="flex items-center overflow-hidden space-x-2 text-white w-[250px] h-[65px] rounded-2xl ">
+              <img src="https://res.cloudinary.com/dzhozuumh/image/upload/v1744446220/er8wxikioxa7rjaronmm.svg" className=' fill-white' alt="" />
+              {/* <span className="text-xl font-bold">Portfolio</span> */}
             </Link>
           </motion.div>
 
